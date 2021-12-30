@@ -97,13 +97,13 @@ const Blog: NextPage<BlogProps> = (props) => {
 export const getStaticProps: GetStaticProps = async (context) => {
     console.table({ action: 'Generating/ Regenerating Todos page' });
     let posts: Posts
-    const url = process.env.APP_BASE_PATH + '/api/posts';
+    const url = 'https://jsonplaceholder.typicode.com/posts';
     if (cache.has(url)) {
         console.table({ action: 'fetching posts', cached: true });
         posts = cache.get<Posts>(url)
     } else {
         console.table({ action: 'fetching posts', cached: false });
-        posts = await fetch('http://localhost:3000/api/posts')
+        posts = await fetch(url)
             .then(response => response.json())
         cache.set<Posts>(url, posts)
     }
