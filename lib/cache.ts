@@ -19,10 +19,12 @@ export const get = <Type>(key: string): Type => {
 export const set = <Type>(key: string, data: Type) => {
     const jsonStr = JSON.stringify({ created_at: Date.now(), data })
     fs.writeFileSync(basePath + hash(key), jsonStr)
+    listCachePathContent("after writing into cache")
 }
 
 export const has = (key: string): boolean => {
     runFSPermissionsCheck()
+    listCachePathContent("while checking cache available")
 
     const path: FilePath = basePath + hash(key)
     return fs.existsSync(path) && !isExpired(path)
@@ -47,4 +49,11 @@ const runFSPermissionsCheck = () => {
         is_writeable = false
         console.table({ path: basePath, exists: fs.existsSync(basePath), is_writeable, error });
     }
+}
+
+const listCachePathContent = (when: string) => {
+    const contents = fs.readdirSync(basePath, { withFileTypes: true })
+        // .filter(dirent => dirent.isDirectory())
+        .map(content => content.name)
+    console.table({ when, contents })
 }

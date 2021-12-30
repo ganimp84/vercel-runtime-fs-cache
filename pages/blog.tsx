@@ -95,7 +95,7 @@ const Blog: NextPage<BlogProps> = (props) => {
 }
 
 export const getStaticProps: GetStaticProps = async (context) => {
-    console.table({ action: 'Generating/ Regenerating Todos page' });
+    console.table({ action: 'Generating/ Regenerating /blog page' });
     let posts: Posts
     const url = 'https://jsonplaceholder.typicode.com/posts';
     if (cache.has(url)) {
