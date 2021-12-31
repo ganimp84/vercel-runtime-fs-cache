@@ -12,9 +12,7 @@ import FeaturedPost from '../components/FeaturedPost';
 import Main from '../components/Main';
 import Sidebar from '../components/Sidebar';
 import Footer from '../components/Footer';
-import { GetStaticProps, NextPage } from 'next';
 import { Post, Posts } from '../types/post';
-import * as cache from '../lib/cache'
 
 const sections = [
     { title: 'Technology', url: '#' },
@@ -59,7 +57,7 @@ interface BlogProps {
     posts: Posts
 }
 
-const BlogCopy: NextPage<BlogProps> = (props) => {
+const Blog = (props: BlogProps) => {
     const mainFeaturedPost = props.posts.shift() as Post;
     const featuredPosts = props.posts.slice(0, 3)
     const otherPosts = props.posts.slice(4, 20)
@@ -94,23 +92,4 @@ const BlogCopy: NextPage<BlogProps> = (props) => {
     );
 }
 
-export const getStaticProps: GetStaticProps = async (context) => {
-    console.table({ action: 'Generating/ Regenerating /blog-copy page' });
-    let posts: Posts
-    const url = 'https://jsonplaceholder.typicode.com/posts';
-    if (cache.has(url)) {
-        console.table({ action: 'fetching posts', cached: true });
-        posts = cache.get<Posts>(url)
-    } else {
-        console.table({ action: 'fetching posts', cached: false });
-        posts = await fetch(url)
-            .then(response => response.json())
-        cache.set<Posts>(url, posts)
-    }
-
-    return {
-        props: { posts, revalidate: 24 * 60 * 60 }, // will be passed to the page component as props
-    }
-}
-
-export default BlogCopy
+export default Blog
