@@ -29,9 +29,9 @@ export const getStaticProps: GetStaticProps = async (context) => {
 export const getStaticPaths: GetStaticPaths = async () => {
     // ISR pages
     const numberOfISRPages = 12
-    const paths = [{ params: { slug: ['isr-page-1'] } }]
+    let paths = []
     for (let i = 0; i < numberOfISRPages; i++) {
-        paths.push({ params: { slug: ['isr-page-' + i] } })
+        paths.push({ params: { slug: ['page-' + i] } })
     }
     return { paths, fallback: 'blocking' }
 }
