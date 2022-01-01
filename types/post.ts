@@ -6,3 +6,8 @@ export type Post = {
 }
 
 export type Posts = Array<Post>
+
+export type PostListResponse = {
+    posts: Posts,
+    is_cached: boolean
+}

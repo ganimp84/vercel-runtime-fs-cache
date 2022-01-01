@@ -1,4 +1,3 @@
-import * as React from 'react';
 import CssBaseline from '@mui/material/CssBaseline';
 import Grid from '@mui/material/Grid';
 import Container from '@mui/material/Container';
@@ -12,7 +11,8 @@ import FeaturedPost from '../components/FeaturedPost';
 import Main from '../components/Main';
 import Sidebar from '../components/Sidebar';
 import Footer from '../components/Footer';
-import { Post, Posts } from '../types/post';
+import { Post, PostListResponse } from '../types/post';
+import { useEffect } from 'react';
 
 const sections = [
     { title: 'Technology', url: '#' },
@@ -54,13 +54,19 @@ const sidebar = {
 const theme = createTheme();
 
 interface BlogProps {
-    posts: Posts
+    postListResponse: PostListResponse
 }
 
 const Blog = (props: BlogProps) => {
-    const mainFeaturedPost = props.posts.shift() as Post;
-    const featuredPosts = props.posts.slice(0, 3)
-    const otherPosts = props.posts.slice(4, 20)
+    const { posts, is_cached } = props.postListResponse
+
+    useEffect(() => {
+        console.table({ is_cached })
+    }, [is_cached])
+
+    const mainFeaturedPost = posts.shift() as Post;
+    const featuredPosts = posts.slice(0, 3)
+    const otherPosts = posts.slice(4, 20)
     return (
         <ThemeProvider theme={theme}>
             <CssBaseline />

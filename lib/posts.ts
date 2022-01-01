@@ -1,18 +1,19 @@
 
 import * as cache from '../lib/cache'
-import { Posts } from '../types/post';
+import { PostListResponse, Posts } from '../types/post';
 
-const getPosts = async (): Promise<Posts> => {
+const getPosts = async (): Promise<PostListResponse> => {
     const url = 'https://jsonplaceholder.typicode.com/posts';
-    if (cache.has(url)) {
+    const is_cached = cache.has(url)
+    if (is_cached) {
         console.table({ action: 'fetching posts', cached: true });
-        return cache.get<Posts>(url)
+        return { posts: cache.get<Posts>(url), is_cached }
     }
     console.table({ action: 'fetching posts', cached: false });
     const posts = await fetch(url)
         .then(response => response.json())
     cache.set<Posts>(url, posts)
-    return posts;
+    return { posts, is_cached };
 }
 
 export default getPosts

@@ -40,7 +40,7 @@ export default function FeaturedPost(props: FeaturedPostProps) {
                         component="img"
                         sx={{ width: 160, display: { xs: 'none', sm: 'block' } }}
                         image="https://source.unsplash.com/random"
-                        alt={post.title}
+                        alt="random"
                     />
                 </Card>
             </CardActionArea>
