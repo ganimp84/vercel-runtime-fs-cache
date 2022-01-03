@@ -1,58 +1,56 @@
 import crypto from 'crypto'
-import * as fs from 'fs';
+import * as fs from "fs";
+import { CacheConfig, CacheResponse } from "../types/cache";
 
-const basePath = process.cwd() + '/' + process.env.CACHE_PATH + '/'
-const ttl = process.env.CACHE_TTL ?? 3600 * 1000
+const opts: CacheConfig = {
+    cachePath: process.cwd() + '/cache/',
+    ttl: 3600000
+}
 
-type FilePath = string
-
-type CacheResponse = {
-    created_at: number,
-    data: string
+export const getOpts = (): CacheConfig => {
+    return opts;
 }
 
 export const get = <Type>(key: string): Type => {
-    const buffer = fs.readFileSync(basePath + hash(key), 'utf-8')
+    const buffer = fs.readFileSync(opts.cachePath + hash(key), 'utf-8')
     return JSON.parse(buffer).data
 }
 
 export const set = <Type>(key: string, data: Type) => {
     if (!isCachePathWriteable()) return
     const jsonStr = JSON.stringify({ created_at: Date.now(), data })
-    fs.writeFileSync(basePath + hash(key), jsonStr)
+    fs.writeFileSync(opts.cachePath + hash(key), jsonStr)
     listCachePathContent({ when: "after writing into cache" })
 }
 
-export const has = (key: string): boolean => {
+export const has = (key: string) => {
     listCachePathContent({ when: "while checking cache existence" })
-
-    const path: FilePath = basePath + hash(key)
-    return fs.existsSync(path) && !isExpired(path)
+    return fs.existsSync(opts.cachePath + hash(key))
 }
 
-const isExpired = (path: FilePath): boolean => {
-    const buffer = fs.readFileSync(path, 'utf-8')
+export const isExpired = (key: string): boolean => {
+    const buffer = fs.readFileSync(opts.cachePath + hash(key), 'utf-8')
     const cacheResponse: CacheResponse = JSON.parse(buffer)
-    console.table({ now: Date.now(), created_at: cacheResponse.created_at, ttl })
-    return Date.now() - cacheResponse.created_at > ttl
+    console.table({ now: Date.now(), created_at: cacheResponse.created_at, ttl: opts.ttl })
+    return Date.now() - cacheResponse.created_at > opts.ttl
 }
 
 const hash = (key: string) => crypto.createHash('md5').update(key).digest('hex')
 
-const isCachePathWriteable = (): boolean => {
-    let isWriteable: boolean;
+export const isCachePathWriteable = (): boolean => {
+    let isWriteable;
     try {
-        fs.accessSync(basePath, fs.constants.W_OK)
+        fs.accessSync(opts.cachePath, fs.constants.W_OK)
         isWriteable = true
     } catch (error) {
         isWriteable = false
     }
-    console.table({ path: basePath, exists: fs.existsSync(basePath), isWriteable })
+    console.table({ path: opts.cachePath, exists: fs.existsSync(opts.cachePath), isWriteable })
     return isWriteable
 }
 
 const listCachePathContent = ({ when }: { when: string }) => {
-    const contents = fs.readdirSync(basePath, { withFileTypes: true })
+    const contents = fs.readdirSync(opts.cachePath, { withFileTypes: true })
         // .filter(dirent => dirent.isDirectory())
         .map(content => content.name)
     console.table({ when, what: "cahce path contents", ...contents })

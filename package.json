@@ -3,7 +3,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "prebuild": "node ./lib/fetch-posts.mjs",
+    "prebuild": "node ./buildScripts/fetch-posts.mjs",
     "build": "next build",
     "start": "next start",
     "lint": "next lint"
@@ -14,11 +14,13 @@
     "@mui/icons-material": "^5.2.5",
     "@mui/material": "^5.2.6",
     "next": "12.0.7",
+    "node-fetch": "^3.1.0",
     "react": "17.0.2",
     "react-dom": "17.0.2"
   },
   "devDependencies": {
     "@types/node": "17.0.5",
+    "@types/node-fetch": "^3.0.3",
     "@types/react": "17.0.38",
     "eslint": "8.5.0",
     "eslint-config-next": "12.0.7",
