@@ -2,13 +2,9 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
 import * as fs from 'fs';
 
-type Data = {
-  name: string
-}
-
 export default function handler(
   req: NextApiRequest,
-  res: NextApiResponse<Data>
+  res: NextApiResponse
 ) {
   const basePath = process.cwd() + '/cache/'
   const buffer = fs.readFileSync(basePath + '/app.json', 'utf-8')
