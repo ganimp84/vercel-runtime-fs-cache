@@ -1,6 +1,6 @@
 
 import * as cache from './cache'
-import { PostListResponse, Posts } from '../types/post';
+import { PostListResponse, Posts } from 'types/post';
 
 const getPosts = async (): Promise<PostListResponse> => {
     const url = 'https://jsonplaceholder.typicode.com/posts';

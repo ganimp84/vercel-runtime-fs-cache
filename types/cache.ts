@@ -1,6 +1,5 @@
-export type CacheConfig = {
-    cachePath: string,
-    ttl: number
+export type CacheBuildInfo = {
+    cache_updated_at: string,
 }
 
 export type CacheResponse = {

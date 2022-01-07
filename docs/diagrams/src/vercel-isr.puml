@@ -1,0 +1,21 @@
+@startuml page-generation
+actor       User
+participant "Vercel Production Machine" as VPM
+participant "Vercel Serverless Function" as VSF
+participant    CMS
+User -> VPM : Request page
+alt cached page is fresh
+VPM -> User : Returns page HTML output
+else cached page is stale
+VPM -> VSF : Generate new page
+group Collecting page data
+VSF -> CMS : Fetch content data
+CMS -> VSF : Return content data
+end
+VSF -> VSF : Generate static page
+VSF -> VPM : Upload build output
+VPM -> VPM : Deploy 
+VPM -> User : Returns page HTML output
+end
+
+@enduml

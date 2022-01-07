@@ -3,7 +3,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "prebuild": "node ./buildScripts/fetch-posts.mjs",
+    "prebuild": "ts-node --project tsconfig.prebuild.json -r tsconfig-paths/register ./prebuild.ts --verbose",
     "build": "next build",
     "start": "next start",
     "lint": "next lint"
@@ -13,14 +13,17 @@
     "@emotion/styled": "^11.6.0",
     "@mui/icons-material": "^5.2.5",
     "@mui/material": "^5.2.6",
+    "@vercel/fetch-retry": "^5.0.3",
     "next": "12.0.7",
-    "node-fetch": "^3.1.0",
+    "node-fetch": "^2.6.1",
     "react": "17.0.2",
-    "react-dom": "17.0.2"
+    "react-dom": "17.0.2",
+    "ts-node": "^10.4.0",
+    "tsconfig-paths": "^3.12.0"
   },
   "devDependencies": {
     "@types/node": "17.0.5",
-    "@types/node-fetch": "^3.0.3",
+    "@types/node-fetch": "2.5.12",
     "@types/react": "17.0.38",
     "eslint": "8.5.0",
     "eslint-config-next": "12.0.7",

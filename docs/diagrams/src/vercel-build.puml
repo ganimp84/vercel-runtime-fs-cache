@@ -1,0 +1,16 @@
+@startuml page-generation
+actor       Developer
+participant "Vercel Build Machine" as VBM
+participant    CMS
+participant "Vercel Production Machine" as VPM
+Developer -> VBM : Git push
+VBM -> VBM : Compile
+group Collecting page data
+VBM -> CMS : Fetch content data
+CMS -> VBM : Return content data
+end
+VBM -> VBM : Generate static pages
+VBM -> VPM : Upload build output
+VPM -> VPM : Deploy 
+
+@enduml

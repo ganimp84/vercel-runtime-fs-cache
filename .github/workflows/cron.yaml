@@ -1,0 +1,13 @@
+name: 5-minute-cron
+on:
+  schedule:
+    - cron: '*/5 * * * *'
+jobs:
+  cron:
+    runs-on: ubuntu-latest
+    environment: production
+    steps:
+      - name: Call vercel's deploy hook
+        run: |
+          curl --request POST \
+          --url '${{ secrets.VERCEL_DEPLOY_HOOK_URL }}'
