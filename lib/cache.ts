@@ -58,8 +58,7 @@ export const updateBuildInfo = (): void => {
 }
 
 export const getBuildInfo = (): CacheBuildInfo => {
-    const basePath = process.cwd() + '/cache/'
     const buffer = fs.readFileSync(CACHE_INFO_FILE, 'utf-8')
-    const cacheBuildInfo: CacheBuildInfo = JSON.parse(buffer).data
+    const cacheBuildInfo: CacheBuildInfo = JSON.parse(buffer)
     return cacheBuildInfo
 }
