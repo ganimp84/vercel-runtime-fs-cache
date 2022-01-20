@@ -2,7 +2,7 @@ import crypto from 'crypto'
 import * as fs from "fs";
 import { CacheBuildInfo, CacheResponse } from "types/cache";
 
-const CACHE_PATH = process.cwd() + '/cache/'
+const CACHE_PATH = process.cwd() + '/public/cache/'
 const CACHE_INFO_FILE = CACHE_PATH + 'info.json'
 const CACHE_TTL = 3600000
 
